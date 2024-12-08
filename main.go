@@ -36,5 +36,11 @@ func main() {
 
 	server.Use(cors.New(corsConfig))
 
+	v1 := server.Group("/v1")
+	{
+		routers.Sessions(v1.Group("/sessions"))
+		routers.Users(v1.Group("/users"))
+	}
+
 	log.Fatal(server.Run(":" + config.ServerPort))
 }
