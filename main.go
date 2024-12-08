@@ -5,6 +5,7 @@ import (
 	"location-share-backend/routers"
 	"log"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
@@ -29,7 +30,11 @@ func main() {
 		log.Fatal("? Could not load environment variables", err)
 	}
 
-	routers.Sessions(server.Group("/sessions"))
+	corsConfig := cors.DefaultConfig()
+	corsConfig.AllowAllOrigins = true
+	corsConfig.AllowMethods = []string{"GET", "POST", "PUT", "DELETE"}
+
+	server.Use(cors.New(corsConfig))
 
 	log.Fatal(server.Run(":" + config.ServerPort))
 }
