@@ -397,19 +397,6 @@ paths:
         - shares
       summary: Get all shares of a user
       description: Get all shares of a user
-      parameters:
-        - name: shared_for
-          in: query
-          required: false
-          schema:
-            type: string
-            format: uuid
-        - name: shared_by
-          in: query
-          required: false
-          schema:
-            type: string
-            format: uuid
       security:
         - read_token: []
       responses:
