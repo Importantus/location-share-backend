@@ -36,4 +36,10 @@ var (
 	ErrInvalidInput = APIError{Status: http.StatusBadRequest, Code: 2002, Message: "Invalid input. A share needs shared_by, shared_with and valid_until"}
 	ErrDeleteShare  = APIError{Status: http.StatusInternalServerError, Code: 2003, Message: "Error deleting share"}
 
+	// Location Errors - 3000 - 3999
+	ErrCreateLocation  = APIError{Status: http.StatusInternalServerError, Code: 3000, Message: "Error creating location"}
+	ErrInvalidUserID   = APIError{Status: http.StatusBadRequest, Code: 3001, Message: "You can only create a location for yourself"}
+	ErrGettingLocation = APIError{Status: http.StatusInternalServerError, Code: 3002, Message: "Error while getting a location from DB"}
+	ErrInvalidTime     = APIError{Status: http.StatusBadRequest, Code: 3003, Message: "Invalid time range"}
+	ErrDeleteLocation  = APIError{Status: http.StatusInternalServerError, Code: 3004, Message: "Error deleting location"}
 )

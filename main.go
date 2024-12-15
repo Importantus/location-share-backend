@@ -41,6 +41,8 @@ func main() {
 		routers.Sessions(v1.Group("/sessions"))
 		routers.Users(v1.Group("/users"))
 		routers.Shares(v1.Group("/shares"))
+		routers.Locations(v1.Group("/locations"))
+		routers.SharedLocations(v1.Group("/shared-locations"))
 	}
 
 	log.Fatal(server.Run(":" + config.ServerPort))
