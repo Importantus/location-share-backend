@@ -40,6 +40,7 @@ func main() {
 	{
 		routers.Sessions(v1.Group("/sessions"))
 		routers.Users(v1.Group("/users"))
+		routers.Shares(v1.Group("/shares"))
 	}
 
 	log.Fatal(server.Run(":" + config.ServerPort))

@@ -29,4 +29,11 @@ var (
 	ErrUserNotFound    = APIError{Status: http.StatusNotFound, Code: 1008, Message: "User not found"}
 	ErrDeleteUser      = APIError{Status: http.StatusInternalServerError, Code: 1009, Message: "Error deleting user"}
 	ErrUpdateUser      = APIError{Status: http.StatusInternalServerError, Code: 1010, Message: "Error updating user"}
+
+	// Share Errors - 2000 - 2999
+	ErrGettingShare = APIError{Status: http.StatusInternalServerError, Code: 2000, Message: "Error while getting a share from DB"}
+	ErrShareExists  = APIError{Status: http.StatusConflict, Code: 2001, Message: "This share already has been shared."}
+	ErrInvalidInput = APIError{Status: http.StatusBadRequest, Code: 2002, Message: "Invalid input. A share needs shared_by, shared_with and valid_until"}
+	ErrDeleteShare  = APIError{Status: http.StatusInternalServerError, Code: 2003, Message: "Error deleting share"}
+
 )
