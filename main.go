@@ -43,6 +43,7 @@ func main() {
 		routers.Shares(v1.Group("/shares"))
 		routers.Locations(v1.Group("/locations"))
 		routers.SharedLocations(v1.Group("/shared-locations"))
+		routers.Info(v1.Group("/info"))
 	}
 
 	log.Fatal(server.Run(":" + config.ServerPort))

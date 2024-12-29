@@ -15,6 +15,8 @@ type Config struct {
 	ClientOrigin string `mapstructure:"CLIENT_ORIGIN"`
 
 	JWTSecret string `mapstructure:"JWT_SECRET"`
+
+	RegistrationSecret string `mapstructure:"REGISTRATION_SECRET"`
 }
 
 func LoadConfig(path string) (config Config, err error) {
