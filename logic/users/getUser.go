@@ -24,5 +24,5 @@ func GetUser(userId string) (user models.User, error customerrors.APIError) {
 		return models.User{}, customerrors.ErrUserNotFound
 	}
 
-	return
+	return user, customerrors.Success
 }

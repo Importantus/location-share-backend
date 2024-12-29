@@ -1,6 +1,7 @@
 package sessions
 
 import (
+	"location-share-backend/customerrors"
 	"location-share-backend/initializers"
 	"location-share-backend/models"
 	"location-share-backend/utils"
@@ -8,20 +9,20 @@ import (
 	"github.com/google/uuid"
 )
 
-func CreateSession(sessionCreate *models.SessionCreate) (key string, err error) {
+func CreateSession(sessionCreate *models.SessionCreate) (key string, id uuid.UUID, err customerrors.APIError) {
 	// Check if the user exists
 	var user models.User
-	err = initializers.DB.Where(&models.User{
+	dbErr := initializers.DB.Where(&models.User{
 		Username: sessionCreate.Username,
 	}).First(&user).Error
 
-	if err != nil {
-		return "", err
+	if dbErr != nil {
+		return "", uuid.UUID{}, customerrors.ErrUserNotFound
 	}
 
 	// Check if the password is correct
 	if !utils.CheckPasswordHash(sessionCreate.Password, user.Password) {
-		return "", err
+		return "", uuid.UUID{}, customerrors.ErrInvalidPassword
 	}
 
 	// Create the session
@@ -33,10 +34,16 @@ func CreateSession(sessionCreate *models.SessionCreate) (key string, err error) 
 		ReadOnly: sessionCreate.ReadOnly,
 	}
 
-	err = initializers.DB.Create(session).Error
-	if err != nil {
-		key, err = utils.CreateToken(session.ID.String())
+	createErr := initializers.DB.Create(&session).Error
+	if createErr != nil {
+		return "", uuid.UUID{}, customerrors.ErrSessionCreationFailed
 	}
 
-	return
+	key, tokenErr := utils.CreateToken(session.ID.String())
+
+	if tokenErr != nil {
+		return "", uuid.UUID{}, customerrors.ErrTokenCreationFailed
+	}
+
+	return key, session.ID, customerrors.Success
 }

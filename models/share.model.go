@@ -16,6 +16,6 @@ type Share struct {
 }
 
 type ShareCreate struct {
-	ValidUntil *time.Time `json:"valid_until"`
-	SharedWith uuid.UUID  `json:"shared_with" binding:"required"`
+	ValidUntil *time.Time  `json:"valid_until"`
+	SharedWith []uuid.UUID `json:"shared_with" binding:"required"`
 }

@@ -2,6 +2,7 @@ package routers
 
 import (
 	"location-share-backend/customerrors"
+	"location-share-backend/initializers"
 	"location-share-backend/logic/users"
 	"location-share-backend/middleware"
 	"location-share-backend/models"
@@ -15,6 +16,18 @@ func Users(router *gin.RouterGroup) {
 
 		if err := ctx.ShouldBindJSON(&json); err != nil {
 			ctx.JSON(400, gin.H{"error": err.Error()})
+			return
+		}
+
+		config, error := initializers.LoadConfig(".")
+
+		if error != nil {
+			ctx.JSON(500, gin.H{"error": error.Error()})
+			return
+		}
+
+		if config.RegistrationSecret != "" && *json.RegistrationSecret != config.RegistrationSecret {
+			ctx.JSON(403, gin.H{"error": "Invalid registration secret"})
 			return
 		}
 

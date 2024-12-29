@@ -26,7 +26,6 @@ type Location struct {
 
 type LocationCreate struct {
 	UserID          uuid.UUID `json:"user_id" binding:"required"`
-	SessionID       uuid.UUID `json:"session_id" binding:"required"`
 	Latitude        float64   `json:"latitude" binding:"required"`
 	Longitude       float64   `json:"longitude" binding:"required"`
 	Accuracy        float64   `json:"accuracy" binding:"required"`

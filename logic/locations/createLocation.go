@@ -9,10 +9,11 @@ import (
 	"github.com/google/uuid"
 )
 
-func CreateLocation(locationCreate models.LocationCreate) (location models.Location, error customerrors.APIError) {
+func CreateLocation(sessionId uuid.UUID, locationCreate models.LocationCreate) (location models.Location, error customerrors.APIError) {
 	utils.CopyStruct(&locationCreate, &location)
 
 	location.ID = uuid.New()
+	location.SessionID = sessionId
 
 	err := initializers.DB.Create(&location)
 

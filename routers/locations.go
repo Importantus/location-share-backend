@@ -12,26 +12,35 @@ import (
 
 func Locations(router *gin.RouterGroup) {
 	router.Use(middleware.WriteAuthRequired()).POST("", func(ctx *gin.Context) {
-		var json models.LocationCreate
+		var json []models.LocationCreate
 
 		if err := ctx.ShouldBindJSON(&json); err != nil {
 			ctx.JSON(400, gin.H{"error": err.Error()})
 			return
 		}
 
-		if json.UserID != ctx.MustGet(middleware.SESSION_KEY).(models.Session).UserID {
-			ctx.JSON(400, customerrors.ErrInvalidUserID)
-			return
+		session := ctx.MustGet(middleware.SESSION_KEY).(models.Session)
+
+		var createdSessions []models.Location
+
+		for _, location := range json {
+
+			if location.UserID != session.UserID {
+				ctx.JSON(400, customerrors.ErrInvalidUserID)
+				return
+			}
+
+			createdLocation, err := locations.CreateLocation(session.ID, location)
+
+			createdSessions = append(createdSessions, createdLocation)
+
+			if err != customerrors.Success {
+				ctx.JSON(err.Status, err)
+				return
+			}
 		}
 
-		location, err := locations.CreateLocation(json)
-
-		if err != customerrors.Success {
-			ctx.JSON(err.Status, err)
-			return
-		}
-
-		ctx.JSON(200, location)
+		ctx.JSON(200, createdSessions)
 	})
 
 	router.Use(middleware.ReadAuthRequired()).GET("", func(ctx *gin.Context) {

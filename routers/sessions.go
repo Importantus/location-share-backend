@@ -1,7 +1,9 @@
 package routers
 
 import (
+	"location-share-backend/customerrors"
 	"location-share-backend/logic/sessions"
+	"location-share-backend/logic/users"
 	"location-share-backend/middleware"
 	"location-share-backend/models"
 
@@ -17,14 +19,37 @@ func Sessions(router *gin.RouterGroup) {
 			return
 		}
 
-		key, err := sessions.CreateSession(&json)
+		key, id, err := sessions.CreateSession(&json)
 
-		if err != nil {
-			ctx.JSON(400, gin.H{"error": err.Error()})
+		if err != customerrors.Success {
+			ctx.JSON(err.Status, err)
 			return
 		}
 
-		ctx.JSON(200, gin.H{"token": key})
+		session, error := sessions.GetSession(id)
+
+		if error != customerrors.Success {
+			ctx.JSON(error.Status, error)
+			return
+		}
+
+		ctx.Set(middleware.SESSION_KEY, session)
+
+		user, error := users.GetUser(session.UserID.String())
+
+		if error != customerrors.Success {
+			ctx.JSON(error.Status, error)
+			return
+		}
+
+		ctx.JSON(200, gin.H{"token": key, "id": id, "user": models.UserResponse{
+			ID:        user.ID,
+			Username:  user.Username,
+			Name:      user.Name,
+			Email:     user.Email,
+			CreatedAt: user.CreatedAt,
+			UpdatedAt: user.UpdatedAt,
+		}})
 	})
 
 	router.Use(middleware.ReadAuthRequired()).GET("/", func(ctx *gin.Context) {

@@ -17,10 +17,11 @@ type User struct {
 }
 
 type UserCreate struct {
-	Username string `json:"username" binding:"required"`
-	Name     string `json:"name" binding:"required"`
-	Email    string `json:"email" binding:"required"`
-	Password string `json:"password" binding:"required"`
+	Username           string  `json:"username" binding:"required"`
+	Name               string  `json:"name" binding:"required"`
+	Email              string  `json:"email" binding:"required"`
+	Password           string  `json:"password" binding:"required"`
+	RegistrationSecret *string `json:"registration_secret"`
 }
 
 type UserResponse struct {
