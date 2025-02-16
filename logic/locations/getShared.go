@@ -18,10 +18,12 @@ func GetSharedLocations(userId uuid.UUID) (locations []models.Location, error cu
 		return nil, customerrors.ErrGettingLocation
 	}
 
+	locations = []models.Location{}
+
 	// For each share, get the newest location
 	for _, share := range shares {
 		var location models.Location
-		err := initializers.DB.Where("user_id = ?", share.SharedBy).Order("timestamp desc").First(&location).Error
+		err := initializers.DB.Where("user_id = ?", share.SharedBy).Order("timestamp desc").Error
 
 		if err != nil {
 			return nil, customerrors.ErrGettingLocation

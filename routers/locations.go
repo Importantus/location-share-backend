@@ -25,7 +25,9 @@ func Locations(router *gin.RouterGroup) {
 
 		for _, location := range json {
 
-			if location.UserID != session.UserID {
+			println(location.UserID.String(), session.UserID.String())
+
+			if location.UserID.String() != session.UserID.String() {
 				ctx.JSON(400, customerrors.ErrInvalidUserID)
 				return
 			}

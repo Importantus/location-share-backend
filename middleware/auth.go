@@ -16,8 +16,11 @@ func checkTokenExistsAndValid(token string) (sessionId uuid.UUID, valid bool) {
 		return uuid.Nil, false
 	}
 
+	// If the token starts with "Bearer ",
 	// Cut the "Bearer " prefix
-	token = token[7:]
+	if len(token) > 7 && token[:7] == "Bearer " {
+		token = token[7:]
+	}
 
 	// Verify the token
 	claims, err := utils.VerifyToken(token)
@@ -26,7 +29,13 @@ func checkTokenExistsAndValid(token string) (sessionId uuid.UUID, valid bool) {
 		return uuid.Nil, false
 	}
 
-	return claims["session_id"].(uuid.UUID), true
+	sessionUUID, err := uuid.Parse(claims["session_id"].(string))
+
+	if err != nil {
+		return uuid.Nil, false
+	}
+
+	return sessionUUID, true
 }
 
 func WriteAuthRequired() gin.HandlerFunc {
