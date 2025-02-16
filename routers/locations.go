@@ -32,7 +32,7 @@ func Locations(router *gin.RouterGroup) {
 				return
 			}
 
-			createdLocation, err := locations.CreateLocation(session.ID, location)
+			createdLocation, err := locations.CreateLocation(session, location)
 
 			createdSessions = append(createdSessions, createdLocation)
 

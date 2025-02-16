@@ -2,6 +2,7 @@ package main
 
 import (
 	"location-share-backend/initializers"
+	"location-share-backend/logic/ws"
 	"location-share-backend/routers"
 	"log"
 
@@ -30,6 +31,8 @@ func main() {
 		log.Fatal("? Could not load environment variables", err)
 	}
 
+	hub := ws.GetHub()
+
 	corsConfig := cors.DefaultConfig()
 	corsConfig.AllowAllOrigins = true
 	corsConfig.AllowMethods = []string{"GET", "POST", "PUT", "DELETE"}
@@ -44,6 +47,7 @@ func main() {
 		routers.Locations(v1.Group("/locations"))
 		routers.SharedLocations(v1.Group("/shared-locations"))
 		routers.Info(v1.Group("/info"))
+		routers.Websocket(v1.Group("/ws"), hub)
 	}
 
 	log.Fatal(server.Run(":" + config.ServerPort))

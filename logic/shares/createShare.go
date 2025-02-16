@@ -3,6 +3,7 @@ package shares
 import (
 	"location-share-backend/customerrors"
 	"location-share-backend/initializers"
+	"location-share-backend/logic/ws"
 	"location-share-backend/models"
 	"time"
 
@@ -29,6 +30,8 @@ func CreateShare(from uuid.UUID, with []uuid.UUID, validUntil *time.Time) (share
 		}
 
 		initializers.DB.Create(&share)
+
+		ws.BroadcastNewShare([]uuid.UUID{w, from}, share)
 	}
 
 	return share, customerrors.Success

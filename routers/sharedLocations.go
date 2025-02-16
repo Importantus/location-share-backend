@@ -12,6 +12,7 @@ import (
 func SharedLocations(router *gin.RouterGroup) {
 	router.Use(middleware.ReadAuthRequired()).GET("", func(ctx *gin.Context) {
 		locations, getError := locations.GetSharedLocations(ctx.MustGet(middleware.SESSION_KEY).(models.Session).UserID)
+
 		if getError != customerrors.Success {
 			ctx.JSON(getError.Status, getError)
 			return
