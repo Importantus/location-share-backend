@@ -3,6 +3,7 @@ package routers
 import (
 	"location-share-backend/customerrors"
 	"location-share-backend/initializers"
+	"location-share-backend/logic/fcm"
 	"location-share-backend/logic/users"
 	"location-share-backend/middleware"
 	"location-share-backend/models"
@@ -113,5 +114,9 @@ func Users(router *gin.RouterGroup) {
 		}
 
 		ctx.JSON(200, user)
+	})
+
+	router.Use(middleware.ReadAuthRequired()).POST("wake-up", func(ctx *gin.Context) {
+		fcm.WakeUpHandler(ctx)
 	})
 }

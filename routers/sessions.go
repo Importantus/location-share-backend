@@ -73,4 +73,22 @@ func Sessions(router *gin.RouterGroup) {
 
 		ctx.JSON(200, gin.H{})
 	})
+
+	router.Use(middleware.WriteAuthRequired()).POST("/register-fcm-token", func(ctx *gin.Context) {
+		var json models.RegisterFCMToken
+
+		if err := ctx.ShouldBindJSON(&json); err != nil {
+			ctx.JSON(400, gin.H{"error": err.Error()})
+			return
+		}
+
+		_, error := sessions.RegisterFCMToken(ctx.MustGet(middleware.SESSION_KEY).(models.Session), json.Token)
+
+		if error != customerrors.Success {
+			ctx.JSON(error.Status, error)
+			return
+		}
+
+		ctx.JSON(200, gin.H{})
+	})
 }

@@ -21,3 +21,5 @@ secret.md
 app.env
 
 tmp/
+
+google_credentials.json

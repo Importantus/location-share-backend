@@ -44,8 +44,9 @@ var (
 	ErrDeleteLocation  = APIError{Status: http.StatusInternalServerError, Code: 3004, Message: "Error deleting location"}
 
 	// Session Errors - 4000 - 4999
-	ErrSessionNotFound       = APIError{Status: http.StatusNotFound, Code: 4000, Message: "Session not found"}
-	ErrSessionCreationFailed = APIError{Status: http.StatusInternalServerError, Code: 4001, Message: "Error creating session"}
-	ErrTokenCreationFailed   = APIError{Status: http.StatusInternalServerError, Code: 4002, Message: "Error creating token"}
-	ErrInvalidPassword       = APIError{Status: http.StatusBadRequest, Code: 4003, Message: "Invalid password"}
+	ErrSessionNotFound            = APIError{Status: http.StatusNotFound, Code: 4000, Message: "Session not found"}
+	ErrSessionCreationFailed      = APIError{Status: http.StatusInternalServerError, Code: 4001, Message: "Error creating session"}
+	ErrTokenCreationFailed        = APIError{Status: http.StatusInternalServerError, Code: 4002, Message: "Error creating token"}
+	ErrInvalidPassword            = APIError{Status: http.StatusBadRequest, Code: 4003, Message: "Invalid password"}
+	ErrFCMTokenRegistrationFailed = APIError{Status: http.StatusInternalServerError, Code: 4004, Message: "Error registering FCM token"}
 )

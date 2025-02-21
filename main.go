@@ -2,6 +2,7 @@ package main
 
 import (
 	"location-share-backend/initializers"
+	"location-share-backend/logic/fcm"
 	"location-share-backend/logic/ws"
 	"location-share-backend/routers"
 	"log"
@@ -32,6 +33,10 @@ func main() {
 	}
 
 	hub := ws.GetHub()
+
+	if err := fcm.InitializeFirebase(); err != nil {
+		log.Fatalf("Failed to initialize Firebase: %v", err)
+	}
 
 	corsConfig := cors.DefaultConfig()
 	corsConfig.AllowAllOrigins = true

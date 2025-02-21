@@ -17,6 +17,8 @@ type Config struct {
 	JWTSecret string `mapstructure:"JWT_SECRET"`
 
 	RegistrationSecret string `mapstructure:"REGISTRATION_SECRET"`
+
+	GoogleApplicationCredentials string `mapstructure:"GOOGLE_APPLICATION_CREDENTIALS"`
 }
 
 func LoadConfig(path string) (config Config, err error) {
