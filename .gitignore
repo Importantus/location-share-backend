@@ -19,7 +19,7 @@ logs.txt
 .idea/
 secret.md
 app.env
-
+result
 tmp/
 
 google_credentials.json

@@ -16,6 +16,21 @@ Then you can run the following command to start the backend server:
 go run main.go
 ```
 
+#### Using NixOS
+
+> Experimental features used: flakes, pipe-operators
+
+To run the backend on NixOS import this module in your flake.
+A minimal configuration may look like this:
+
+```nix
+  services.location-share = {
+    enable = true;
+    port = 3457;
+    googleApplicationCredentials = secrets.locationshare.credentials;
+  };
+```
+
 ### Making changes to the database
 
 After making changes to the existing models, run the following command to update the database schema:
