@@ -127,7 +127,7 @@
           pname = "locationshare";
           version = "1.0.0";
           src = ./.;
-          vendorHash = "sha256-e0J/bSYWQNqdstQBrKf17sPvTOQtFPB5PPAWuyKgqUI=";
+          vendorHash = "sha256-5bMzD0FNZUaak0f08npmKF6way0LU55IQh3Xob02tXs=";
         };
       });
     };
